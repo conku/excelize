@@ -7,7 +7,7 @@ import (
 	"github.com/mohae/deepcopy"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/conku/excelize/v2"
+	"github.com/conku/excelize"
 )
 
 var _ = []excelize.SheetPrOption{

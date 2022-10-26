@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conku/excelize/v2"
+	"github.com/conku/excelize"
 
 	"github.com/mohae/deepcopy"
 	"github.com/stretchr/testify/assert"
