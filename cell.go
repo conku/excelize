@@ -47,24 +47,24 @@ func (f *File) GetCellValue(sheet, axis string) (string, error) {
 // coordinates should not be in the first row of the table. The following
 // shows the supported data types:
 //
-//    int
-//    int8
-//    int16
-//    int32
-//    int64
-//    uint
-//    uint8
-//    uint16
-//    uint32
-//    uint64
-//    float32
-//    float64
-//    string
-//    []byte
-//    time.Duration
-//    time.Time
-//    bool
-//    nil
+//	int
+//	int8
+//	int16
+//	int32
+//	int64
+//	uint
+//	uint8
+//	uint16
+//	uint32
+//	uint64
+//	float32
+//	float64
+//	string
+//	[]byte
+//	time.Duration
+//	time.Time
+//	bool
+//	nil
 //
 // Note that default date format is m/d/yy h:mm of time.Time type value. You can
 // set numbers format by SetCellStyle() method.
@@ -228,9 +228,8 @@ func setCellBool(value bool) (t string, v string) {
 // represent the number. bitSize is 32 or 64 depending on if a float32 or
 // float64 was originally used for the value. For Example:
 //
-//    var x float32 = 1.325
-//    f.SetCellFloat("Sheet1", "A1", float64(x), 2, 32)
-//
+//	var x float32 = 1.325
+//	f.SetCellFloat("Sheet1", "A1", float64(x), 2, 32)
 func (f *File) SetCellFloat(sheet, axis string, value float64, prec, bitSize int) error {
 	xlsx, err := f.workSheetReader(sheet)
 	if err != nil {
@@ -401,8 +400,7 @@ func (f *File) SetCellFormula(sheet, axis, formula string, opts ...FormulaOpts) 
 // the value of link will be false and the value of the target will be a blank
 // string. For example get hyperlink of Sheet1!H6:
 //
-//    link, target, err := f.GetCellHyperLink("Sheet1", "H6")
-//
+//	link, target, err := f.GetCellHyperLink("Sheet1", "H6")
 func (f *File) GetCellHyperLink(sheet, axis string) (bool, string, error) {
 	// Check for correct cell name
 	if _, _, err := SplitCellName(axis); err != nil {
@@ -436,15 +434,14 @@ func (f *File) GetCellHyperLink(sheet, axis string) (bool, string, error) {
 // in this workbook. Maximum limit hyperlinks in a worksheet is 65530. The
 // below is example for external link.
 //
-//    err := f.SetCellHyperLink("Sheet1", "A3", "https://github.com/360EntSecGroup-Skylar/excelize", "External")
-//    // Set underline and font color style for the cell.
-//    style, err := f.NewStyle(`{"font":{"color":"#1265BE","underline":"single"}}`)
-//    err = f.SetCellStyle("Sheet1", "A3", "A3", style)
+//	err := f.SetCellHyperLink("Sheet1", "A3", "https://github.com/conku/excelize", "External")
+//	// Set underline and font color style for the cell.
+//	style, err := f.NewStyle(`{"font":{"color":"#1265BE","underline":"single"}}`)
+//	err = f.SetCellStyle("Sheet1", "A3", "A3", style)
 //
 // A this is another example for "Location":
 //
-//    err := f.SetCellHyperLink("Sheet1", "A3", "Sheet1!A40", "Location")
-//
+//	err := f.SetCellHyperLink("Sheet1", "A3", "Sheet1!A40", "Location")
 func (f *File) SetCellHyperLink(sheet, axis, link, linkType string) error {
 	// Check for correct cell name
 	if _, _, err := SplitCellName(axis); err != nil {
@@ -497,106 +494,105 @@ func (f *File) SetCellHyperLink(sheet, axis, link, linkType string) error {
 // worksheet. For example, set rich text on the A1 cell of the worksheet named
 // Sheet1:
 //
-//    package main
+//	package main
 //
-//    import (
-//        "fmt"
+//	import (
+//	    "fmt"
 //
-//        "github.com/360EntSecGroup-Skylar/excelize"
-//    )
+//	    "github.com/conku/excelize"
+//	)
 //
-//    func main() {
-//        f := excelize.NewFile()
-//        if err := f.SetRowHeight("Sheet1", 1, 35); err != nil {
-//            fmt.Println(err)
-//            return
-//        }
-//        if err := f.SetColWidth("Sheet1", "A", "A", 44); err != nil {
-//            fmt.Println(err)
-//            return
-//        }
-//        if err := f.SetCellRichText("Sheet1", "A1", []excelize.RichTextRun{
-//            {
-//                Text: "bold",
-//                Font: &excelize.Font{
-//                    Bold:   true,
-//                    Color:  "2354e8",
-//                    Family: "Times New Roman",
-//                },
-//            },
-//            {
-//                Text: " and ",
-//                Font: &excelize.Font{
-//                    Family: "Times New Roman",
-//                },
-//            },
-//            {
-//                Text: " italic",
-//                Font: &excelize.Font{
-//                    Bold:   true,
-//                    Color:  "e83723",
-//                    Italic: true,
-//                    Family: "Times New Roman",
-//                },
-//            },
-//            {
-//                Text: "text with color and font-family,",
-//                Font: &excelize.Font{
-//                    Bold:   true,
-//                    Color:  "2354e8",
-//                    Family: "Times New Roman",
-//                },
-//            },
-//            {
-//                Text: "\r\nlarge text with ",
-//                Font: &excelize.Font{
-//                    Size:  14,
-//                    Color: "ad23e8",
-//                },
-//            },
-//            {
-//                Text: "strike",
-//                Font: &excelize.Font{
-//                    Color:  "e89923",
-//                    Strike: true,
-//                },
-//            },
-//            {
-//                Text: " and ",
-//                Font: &excelize.Font{
-//                    Size:  14,
-//                    Color: "ad23e8",
-//                },
-//            },
-//            {
-//                Text: "underline.",
-//                Font: &excelize.Font{
-//                    Color:     "23e833",
-//                    Underline: "single",
-//                },
-//            },
-//        }); err != nil {
-//            fmt.Println(err)
-//            return
-//        }
-//        style, err := f.NewStyle(&excelize.Style{
-//            Alignment: &excelize.Alignment{
-//                WrapText: true,
-//            },
-//        })
-//        if err != nil {
-//            fmt.Println(err)
-//            return
-//        }
-//        if err := f.SetCellStyle("Sheet1", "A1", "A1", style); err != nil {
-//            fmt.Println(err)
-//            return
-//        }
-//        if err := f.SaveAs("Book1.xlsx"); err != nil {
-//            fmt.Println(err)
-//        }
-//    }
-//
+//	func main() {
+//	    f := excelize.NewFile()
+//	    if err := f.SetRowHeight("Sheet1", 1, 35); err != nil {
+//	        fmt.Println(err)
+//	        return
+//	    }
+//	    if err := f.SetColWidth("Sheet1", "A", "A", 44); err != nil {
+//	        fmt.Println(err)
+//	        return
+//	    }
+//	    if err := f.SetCellRichText("Sheet1", "A1", []excelize.RichTextRun{
+//	        {
+//	            Text: "bold",
+//	            Font: &excelize.Font{
+//	                Bold:   true,
+//	                Color:  "2354e8",
+//	                Family: "Times New Roman",
+//	            },
+//	        },
+//	        {
+//	            Text: " and ",
+//	            Font: &excelize.Font{
+//	                Family: "Times New Roman",
+//	            },
+//	        },
+//	        {
+//	            Text: " italic",
+//	            Font: &excelize.Font{
+//	                Bold:   true,
+//	                Color:  "e83723",
+//	                Italic: true,
+//	                Family: "Times New Roman",
+//	            },
+//	        },
+//	        {
+//	            Text: "text with color and font-family,",
+//	            Font: &excelize.Font{
+//	                Bold:   true,
+//	                Color:  "2354e8",
+//	                Family: "Times New Roman",
+//	            },
+//	        },
+//	        {
+//	            Text: "\r\nlarge text with ",
+//	            Font: &excelize.Font{
+//	                Size:  14,
+//	                Color: "ad23e8",
+//	            },
+//	        },
+//	        {
+//	            Text: "strike",
+//	            Font: &excelize.Font{
+//	                Color:  "e89923",
+//	                Strike: true,
+//	            },
+//	        },
+//	        {
+//	            Text: " and ",
+//	            Font: &excelize.Font{
+//	                Size:  14,
+//	                Color: "ad23e8",
+//	            },
+//	        },
+//	        {
+//	            Text: "underline.",
+//	            Font: &excelize.Font{
+//	                Color:     "23e833",
+//	                Underline: "single",
+//	            },
+//	        },
+//	    }); err != nil {
+//	        fmt.Println(err)
+//	        return
+//	    }
+//	    style, err := f.NewStyle(&excelize.Style{
+//	        Alignment: &excelize.Alignment{
+//	            WrapText: true,
+//	        },
+//	    })
+//	    if err != nil {
+//	        fmt.Println(err)
+//	        return
+//	    }
+//	    if err := f.SetCellStyle("Sheet1", "A1", "A1", style); err != nil {
+//	        fmt.Println(err)
+//	        return
+//	    }
+//	    if err := f.SaveAs("Book1.xlsx"); err != nil {
+//	        fmt.Println(err)
+//	    }
+//	}
 func (f *File) SetCellRichText(sheet, cell string, runs []RichTextRun) error {
 	ws, err := f.workSheetReader(sheet)
 	if err != nil {
@@ -655,8 +651,7 @@ func (f *File) SetCellRichText(sheet, cell string, runs []RichTextRun) error {
 // coordinate and a pointer to array type 'slice'. For example, writes an
 // array to row 6 start with the cell B6 on Sheet1:
 //
-//     err := f.SetSheetRow("Sheet1", "B6", &[]interface{}{"1", nil, 2})
-//
+//	err := f.SetSheetRow("Sheet1", "B6", &[]interface{}{"1", nil, 2})
 func (f *File) SetSheetRow(sheet, axis string, slice interface{}) error {
 	col, row, err := CellNameToCoordinates(axis)
 	if err != nil {
